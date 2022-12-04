@@ -1,5 +1,8 @@
 # PreCachedMinimumMaximum
-PreCachedMinimumMaximum
+
+Naive searching for a minimum in an array of numbers requires going through the array each time, for every searched range.
+But there is a faster algorithm (implemented below!) where we first build a tree of sub-array maximums so that later to find a maximum of each range we will only need to traverse the tree, which is much faster (O(N) vs. O(log N)).
+
 
 ```c#
 using BenchmarkDotNet.Attributes;
