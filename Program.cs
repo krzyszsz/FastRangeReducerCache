@@ -55,12 +55,12 @@ public class Benchmarking
             {
                 (startIdx, endIdx) = (endIdx, startIdx);
             }
-            best = new ValueTuple<int, double>(startIdx, arr[startIdx]);
+            best = new (startIdx, arr[startIdx]);
             for (var j = startIdx + 1; j <= endIdx; j++)
             {
                 if (arr[j] > best.Value.Item2)
                 {
-                    best = new ValueTuple<int, double>(j, arr[j]);
+                    best = new (j, arr[j]);
                 }
             }
         }
@@ -87,12 +87,12 @@ public class Benchmarking
         {
             var arr = GetRandomArrayForTest(rand, out int startIdx, out int endIdx);
 
-            var best = new ValueTuple<int, double>(startIdx, arr[startIdx]);
+            var best = (startIdx, arr[startIdx]);
             for (var j = startIdx + 1; j <= endIdx; j++)
             {
                 if (arr[j] > best.Item2)
                 {
-                    best = new ValueTuple<int, double>(j, arr[j]);
+                    best = (j, arr[j]);
                 }
             }
 
@@ -106,12 +106,12 @@ public class Benchmarking
         {
             var arr = GetRandomArrayForTest(rand, out int startIdx, out int endIdx);
 
-            var best = new ValueTuple<int, double>(startIdx, arr[startIdx]);
+            var best = (startIdx, arr[startIdx]);
             for (var j = startIdx + 1; j <= endIdx; j++)
             {
                 if (arr[j] < best.Item2)
                 {
-                    best = new ValueTuple<int, double>(j, arr[j]);
+                    best = (j, arr[j]);
                 }
             }
 

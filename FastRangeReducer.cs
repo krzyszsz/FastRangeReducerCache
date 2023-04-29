@@ -1,44 +1,44 @@
 ﻿public sealed class FastRangeReducer
 {
-    ValueTuple<int, double>[][] _preCachedMinMax;
-    Func<ValueTuple<int, double>, ValueTuple<int, double>, ValueTuple<int, double>> _reducer;
+    (int, double)[][] _preCachedMinMax;
+    Func<(int, double), (int, double), (int, double)> _reducer;
 
-    public FastRangeReducer(Span<double> rangeToInspect, Func<ValueTuple<int, double>, ValueTuple<int, double>, ValueTuple<int, double>> reducer)
+    public FastRangeReducer(Span<double> rangeToInspect, Func<(int, double), (int, double), (int, double)> reducer)
     {
         _reducer = reducer;
         _preCachedMinMax = PreCacheMaxMin(rangeToInspect);
     }
 
-    public static ValueTuple<int, double> Min(ValueTuple<int, double> a, ValueTuple<int, double> b)
+    public static (int, double) Min((int, double) a, (int, double) b)
     {
         return a.Item2 < b.Item2 ? a : b;
     }
 
-    public static ValueTuple<int, double> Max(ValueTuple<int, double> a, ValueTuple<int, double> b)
+    public static (int, double) Max((int, double) a, (int, double) b)
     {
         return a.Item2 > b.Item2 ? a : b;
     }
 
-    private ValueTuple<int, double>[][] PreCacheMaxMin(Span<double> rangeToInspect)
+    private (int, double)[][] PreCacheMaxMin(Span<double> rangeToInspect)
     {
         var lengthTotal = rangeToInspect.Length;
         var treeLevels = (int)Math.Ceiling(1 + Math.Log2(lengthTotal));
-        var result = new ValueTuple<int, double>[treeLevels][];
+        var result = new (int, double)[treeLevels][];
 
-        if (result[0] == null) result[0] = new ValueTuple<int, double>[lengthTotal];
+        if (result[0] == null) result[0] = new (int, double)[lengthTotal];
         for (var i = 0; i < lengthTotal; i++)
         {
-            result[0][i] = new ValueTuple<int, double>(i, rangeToInspect[i]);
+            result[0][i] = (i, rangeToInspect[i]);
         }
 
         for (var level = 1; level < treeLevels; level++)
         {
             var lengthAtThisLevel = (int)Math.Ceiling(lengthTotal / Math.Pow(2.0, level));
-            if (result[level] == null) result[level] = new ValueTuple<int, double>[lengthAtThisLevel];
+            if (result[level] == null) result[level] = new (int, double)[lengthAtThisLevel];
             for (var i = 0; i < lengthAtThisLevel; i++)
             {
                 var startIndex = i * 2;
-                var best = new ValueTuple<int, double>(result[level - 1][startIndex].Item1, result[level - 1][startIndex].Item2);
+                var best = (result[level - 1][startIndex].Item1, result[level - 1][startIndex].Item2);
                 var loopEnd = Math.Min((i + 1) * 2, result[level - 1].Length);
                 for (var j = startIndex+1; j < loopEnd; j++)
                 {
@@ -51,7 +51,7 @@
         return result;
     }
 
-    public ValueTuple<int, double> GetResultForRange(int start, int end)
+    public (int, double) GetResultForRange(int start, int end)
     {
         var position = start;
         var level = 0;
