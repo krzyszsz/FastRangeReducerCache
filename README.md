@@ -1,4 +1,4 @@
-# PreCachedMinimumMaximum
+# Fast Range Reducer Cache
 
 Naive searching for a minimum in an array of numbers requires going through the array each time, for every searched range. Which is not great if you need it multiple times for different sub-ranges.
 Much better to build a tree of sub-array max/min so that later to find a max/min of each sub-range we will only need to traverse the tree, which is much faster (O(N) vs. O(log N)).

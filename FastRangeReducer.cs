@@ -1,25 +1,25 @@
 ﻿public sealed class FastRangeReducer
 {
-    (int, double)[][] _preCachedMinMax;
-    Func<(int, double), (int, double), (int, double)> _reducer;
+    readonly (int, double)[][] _preCachedAsTree;
+    readonly Func<(int, double), (int, double), (int, double)> _reducer;
 
     public FastRangeReducer(Span<double> rangeToInspect, Func<(int, double), (int, double), (int, double)> reducer)
     {
         _reducer = reducer;
-        _preCachedMinMax = PreCacheMaxMin(rangeToInspect);
+        _preCachedAsTree = PreCacheAsTree(rangeToInspect);
     }
 
-    public static (int, double) Min((int, double) a, (int, double) b)
+    public static (int, double) Min((int, double) newItem, (int, double) accumulator)
     {
-        return a.Item2 < b.Item2 ? a : b;
+        return newItem.Item2 < accumulator.Item2 ? newItem : accumulator;
     }
 
-    public static (int, double) Max((int, double) a, (int, double) b)
+    public static (int, double) Max((int, double) newItem, (int, double) accumulator)
     {
-        return a.Item2 > b.Item2 ? a : b;
+        return newItem.Item2 > accumulator.Item2 ? newItem : accumulator;
     }
 
-    private (int, double)[][] PreCacheMaxMin(Span<double> rangeToInspect)
+    private (int, double)[][] PreCacheAsTree(Span<double> rangeToInspect)
     {
         var lengthTotal = rangeToInspect.Length;
         var treeLevels = (int)Math.Ceiling(1 + Math.Log2(lengthTotal));
@@ -55,11 +55,11 @@
     {
         var position = start;
         var level = 0;
-        var best = _preCachedMinMax[0][start];
+        var best = _preCachedAsTree[0][start];
         var dividerOnThisLevel = 1;
         var nextLevelDistance = dividerOnThisLevel * 2;
         var distanceToNextRoundNumber = (nextLevelDistance - position % nextLevelDistance) % nextLevelDistance;
-        var currentLevel = _preCachedMinMax[level];
+        var currentLevel = _preCachedAsTree[level];
 
         do
         {
@@ -69,7 +69,7 @@
                 dividerOnThisLevel *= 2;
                 nextLevelDistance *= 2;
                 distanceToNextRoundNumber = (nextLevelDistance - position % nextLevelDistance) % nextLevelDistance;
-                currentLevel = _preCachedMinMax[level];
+                currentLevel = _preCachedAsTree[level];
                 continue;
             }
             var positionPlusDividerOnThisLevel = position + dividerOnThisLevel;
@@ -79,7 +79,7 @@
                 dividerOnThisLevel /= 2;
                 nextLevelDistance /= 2;
                 distanceToNextRoundNumber = (nextLevelDistance - position % nextLevelDistance) % nextLevelDistance;
-                currentLevel = _preCachedMinMax[level];
+                currentLevel = _preCachedAsTree[level];
                 continue;
             }
             var addressForThisLevel = position / dividerOnThisLevel;
