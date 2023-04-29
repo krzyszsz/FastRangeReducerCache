@@ -6,6 +6,7 @@ Also: you can pass any reducer, not necessarily only min/max finder. So you can 
 
 
 ```c#
+/*
 BenchmarkDotNet=v0.13.2, OS=Windows 11 (10.0.22621.1555)
 Intel Core i7-8750H CPU 2.20GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores
 .NET SDK=7.0.203
