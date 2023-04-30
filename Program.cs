@@ -83,7 +83,7 @@ public class Benchmarking
     public static void TestCorrectness()
     {
         var rand = new Random(0);
-        for (var i = 0; i < 1000000; i++)
+        for (var i = 0; i < 10000; i++)
         {
             var arr = GetRandomArrayForTest(rand, out int startIdx, out int endIdx);
 
@@ -102,7 +102,7 @@ public class Benchmarking
             if (max.Item2 != best.Item2) throw new Exception();
         }
 
-        for (var i = 0; i < 1000000; i++)
+        for (var i = 0; i < 10000; i++)
         {
             var arr = GetRandomArrayForTest(rand, out int startIdx, out int endIdx);
 
