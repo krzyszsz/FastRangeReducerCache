@@ -9,10 +9,10 @@ Intel Core i7-8750H CPU 2.20GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical 
   DefaultJob : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
 
 
-|       Method |       Mean |    Error |    StdDev |    Gen0 |    Gen1 |    Gen2 | Allocated |
-|------------- |-----------:|---------:|----------:|--------:|--------:|--------:|----------:|
-| WithPreCache |   795.3 us | 15.57 us |  28.46 us | 58.5938 | 49.8047 | 49.8047 | 391.56 KB |
-|        Naive | 3,374.8 us | 67.19 us | 180.49 us | 15.6250 |       - |       - |  78.45 KB |
+|       Method |       Mean |    Error |    StdDev |     Median |    Gen0 |    Gen1 |    Gen2 | Allocated |
+|------------- |-----------:|---------:|----------:|-----------:|--------:|--------:|--------:|----------:|
+| WithPreCache |   716.0 us | 14.32 us |  18.61 us |   705.4 us | 57.6172 | 49.8047 | 49.8047 | 391.56 KB |
+|        Naive | 3,310.3 us | 64.07 us | 180.70 us | 3,221.2 us | 15.6250 |       - |       - |  78.45 KB |
 */
 
 Benchmarking.TestCorrectness();

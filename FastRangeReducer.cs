@@ -41,23 +41,11 @@
             for (var i = 0; i < lengthAtThisLevel; i++)
             {
                 var startIndex = i * 2;
-                var best = level == 1
-                    ? (startIndex, rangeToInspect[startIndex])
-                    : (result[level - 1][startIndex].Item1, result[level - 1][startIndex].Item2);
+                var best = (result[level - 1][startIndex].Item1, result[level - 1][startIndex].Item2);
                 var loopEnd = Math.Min((i + 1) * 2, loopEndUpperBound);
-                if (level == 1)
+                for (var j = startIndex + 1; j < loopEnd; j++)
                 {
-                    for (var j = startIndex + 1; j < loopEnd; j++)
-                    {
-                        best = _reducer((j, rangeToInspect[j]), best);
-                    }
-                }
-                else
-                {
-                    for (var j = startIndex + 1; j < loopEnd; j++)
-                    {
-                        best = _reducer(result[level - 1][j], best);
-                    }
+                    best = _reducer(result[level - 1][j], best);
                 }
                 result[level][i] = best;
             }
