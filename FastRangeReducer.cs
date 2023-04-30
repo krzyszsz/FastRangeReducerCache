@@ -37,14 +37,27 @@
             var lengthAtThisLevel = lengthTotal / divider + Math.Sign(lengthTotal % divider);
 
             if (result[level] == null) result[level] = new (int, double)[lengthAtThisLevel];
+            var loopEndUpperBound = level == 1 ? lengthTotal : result[level - 1].Length;
             for (var i = 0; i < lengthAtThisLevel; i++)
             {
                 var startIndex = i * 2;
-                var best = (result[level - 1][startIndex].Item1, result[level - 1][startIndex].Item2);
-                var loopEnd = Math.Min((i + 1) * 2, result[level - 1].Length);
-                for (var j = startIndex + 1; j < loopEnd; j++)
+                var best = level == 1
+                    ? (startIndex, rangeToInspect[startIndex])
+                    : (result[level - 1][startIndex].Item1, result[level - 1][startIndex].Item2);
+                var loopEnd = Math.Min((i + 1) * 2, loopEndUpperBound);
+                if (level == 1)
                 {
-                    best = _reducer(result[level - 1][j], best);
+                    for (var j = startIndex + 1; j < loopEnd; j++)
+                    {
+                        best = _reducer((j, rangeToInspect[j]), best);
+                    }
+                }
+                else
+                {
+                    for (var j = startIndex + 1; j < loopEnd; j++)
+                    {
+                        best = _reducer(result[level - 1][j], best);
+                    }
                 }
                 result[level][i] = best;
             }
