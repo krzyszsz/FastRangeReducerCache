@@ -82,6 +82,15 @@ public class Benchmarking
 
     public static void TestCorrectness()
     {
+        var trivialTest = new[] { 3.0, 1.0, 4.0, 2.0 };
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Max).GetResultForRange(0, 3) != (2, 4.0)) throw new Exception("Max does not work.");
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Min).GetResultForRange(0, 3) != (1, 1.0)) throw new Exception("Min does not work.");
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Max).GetResultForRange(2, 3) != (2, 4.0)) throw new Exception("Max does not work.");
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Min).GetResultForRange(2, 3) != (3, 2.0)) throw new Exception("Min does not work.");
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Max).GetResultForRange(3, 3) != (3, 2.0)) throw new Exception("Max does not work.");
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Min).GetResultForRange(2, 2) != (2, 4.0)) throw new Exception("Min does not work.");
+        if (new FastRangeReducer(trivialTest, FastRangeReducer.Min).GetResultForRange(0, 0) != (0, 3.0)) throw new Exception("Min does not work.");
+
         var rand = new Random(0);
         for (var i = 0; i < 10000; i++)
         {
